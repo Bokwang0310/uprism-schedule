@@ -23,18 +23,23 @@ const convertDayCode = (dayCode) => {
 const getLink = (code) => `https://gne.uprism.io/join/${code}`;
 
 const getCodeGetter = async () => {
-  const codeObj = await fetch("teacher.json").then((res) => res.json());
-  console.log("Fetched teacher.json");
+  const path = "teacher.json";
+  const codeObj = await fetch(path).then((res) => res.json());
+
+  console.log(`Fetched ${path}`);
   return (teacher) => codeObj[teacher];
 };
 
-// const getTodaySchedule = async () => {
-//     const scheduleObj = await fetch("myschedule.json").then((res) => res.json());
-// };
+const getTodaySchedule = async (dayCode) => {
+  const path = "myschedule.json";
+  const scheduleObj = await fetch(path).then((res) => res.json());
+
+  console.log(`Fetched ${path}`);
+  return scheduleObj[convertDayCode(dayCode)];
+};
 
 async function main() {
-  const schedule = await fetch("myschedule.json").then((res) => res.json());
-  const todaySchedule = schedule[convertDayCode(new Date().getDay())];
+  const todaySchedule = await getTodaySchedule(new Date().getDay());
   const getCode = await getCodeGetter();
 
   const a = todaySchedule.map(async ({ subject, teacher }, index) => {
