@@ -22,30 +22,26 @@ const convertDayCode = (dayCode) => {
 
 const getLink = (code) => `https://gne.uprism.io/join/${code}`;
 
-async function* codeGenerator() {
-  const codeObj = await fetch("teacher.json").then((res) => res.json());
-  console.log("Fetched teacher.json");
-  while (true) {
-    yield (teacher) => codeObj[teacher];
-  }
-}
-async function test() {
+const getCodeGetter = async () => {
   const codeObj = await fetch("teacher.json").then((res) => res.json());
   console.log("Fetched teacher.json");
   return (teacher) => codeObj[teacher];
-}
+};
+
+// const getTodaySchedule = async () => {
+//     const scheduleObj = await fetch("myschedule.json").then((res) => res.json());
+// };
 
 async function main() {
   const schedule = await fetch("myschedule.json").then((res) => res.json());
   const todaySchedule = schedule[convertDayCode(new Date().getDay())];
-  const gen = codeGenerator();
+  const getCode = await getCodeGetter();
 
   const a = todaySchedule.map(async ({ subject, teacher }, index) => {
     const textNode = document.createTextNode(
       `${index + 1}교시 ${subject}(${teacher}): `
     );
 
-    const getCode = (await gen.next()).value;
     const code = getCode(teacher);
     const link = getLink(code);
 
