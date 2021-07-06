@@ -15,8 +15,9 @@ const convertDayCode = (dayCode) => {
     case 5:
       return 4;
 
+    // TODO: Handle
     default:
-      return -1;
+      return 0;
   }
 };
 
@@ -31,40 +32,47 @@ const getCodeGetter = async () => {
 };
 
 const getTodaySchedule = async (dayCode) => {
-  const path = "myschedule.json";
+  const path = "schedule.json";
   const scheduleObj = await fetch(path).then((res) => res.json());
 
   console.log(`Fetched ${path}`);
   return scheduleObj[convertDayCode(dayCode)];
 };
 
-async function main() {
-  const todaySchedule = await getTodaySchedule(new Date().getDay());
-  const getCode = await getCodeGetter();
+const createAnchorElement = (href, text) => {
+  const anchorElement = document.createElement("a");
+  anchorElement.setAttribute("href", href);
+  anchorElement.innerText = text;
 
-  const a = todaySchedule.map(async ({ subject, teacher }, index) => {
+  return anchorElement;
+};
+
+const appendAllChildren = (parentNode, ...children) =>
+  children.map((child) => parentNode.appendChild(child));
+
+const createLinkElement = (code) => createAnchorElement(getLink(code), code);
+
+const getLists = async (todaySchedule, getCode) =>
+  todaySchedule.map(({ subject, teacher }, index) => {
     const textNode = document.createTextNode(
       `${index + 1}교시 ${subject}(${teacher}): `
     );
-
-    const code = getCode(teacher);
-    const link = getLink(code);
-
-    const anchorElement = document.createElement("a");
-    anchorElement.setAttribute("href", link);
-    anchorElement.innerText = code;
+    const anchorElement = createLinkElement(getCode(teacher));
 
     const listElement = document.createElement("li");
-    listElement.appendChild(textNode);
-    listElement.appendChild(anchorElement);
+    appendAllChildren(listElement, textNode, anchorElement);
 
     return listElement;
   });
 
-  console.log(a);
+async function main() {
+  const todaySchedule = await getTodaySchedule(new Date().getDay());
+  const getCode = await getCodeGetter();
 
-  const target = document.querySelector("div");
-  a.map(async (b) => target.appendChild(await b));
+  const lists = await getLists(todaySchedule, getCode);
+
+  const target = document.querySelector("ul");
+  lists.map((list) => target.appendChild(list));
 }
 
 main();
