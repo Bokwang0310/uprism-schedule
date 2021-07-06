@@ -1,0 +1,47 @@
+[
+  [
+    { "subject": "지구과학", "teacher": "김은미" },
+    { "subject": "수학", "teacher": "박영걸" },
+    { "subject": "생활과 윤리", "teacher": "윤신혜" },
+    { "subject": "일본어", "teacher": "박빈" },
+    { "subject": "영어", "teacher": "박소현" },
+    { "subject": "물리학", "teacher": "이상욱" },
+    { "subject": "스포츠생활", "teacher": "이규호" }
+  ],
+  [
+    { "subject": "영어", "teacher": "박소현" },
+    { "subject": "일본어", "teacher": "박빈" },
+    { "subject": "생활과 윤리", "teacher": "윤신혜" },
+    { "subject": "수학", "teacher": "박영걸" },
+    { "subject": "지구과학", "teacher": "김은미" },
+    { "subject": "문학", "teacher": "주오돈" },
+    { "subject": "물리학", "teacher": "이상욱" }
+  ],
+  [
+    { "subject": "일본어", "teacher": "박빈" },
+    { "subject": "물리학", "teacher": "이상욱" },
+    { "subject": "영어", "teacher": "박소현" },
+    { "subject": "문학", "teacher": "주오돈" },
+    { "subject": "동아리", "teacher": "정인희" },
+    { "subject": "자율활동", "teacher": "박빈" }
+  ],
+  [
+    { "subject": "문학", "teacher": "오민정" },
+
+    { "subject": "생활과 윤리", "teacher": "김선훈" },
+    { "subject": "수학", "teacher": "박영걸" },
+    { "subject": "미술창작", "teacher": "차경석" },
+    { "subject": "지구과학", "teacher": "김은미" },
+    { "subject": "영어", "teacher": "박소현" },
+    { "subject": "문학", "teacher": "박영선" }
+  ],
+  [
+    { "subject": "미술창작", "teacher": "차경석" },
+    { "subject": "진로", "teacher": "이재인" },
+    { "subject": "물리학", "teacher": "이상욱" },
+    { "subject": "지구과학", "teacher": "김은미" },
+    { "subject": "수학", "teacher": "박영걸" },
+    { "subject": "생활과 윤리", "teacher": "김선훈" },
+    { "subject": "자율활동", "teacher": "박빈" }
+  ]
+]
