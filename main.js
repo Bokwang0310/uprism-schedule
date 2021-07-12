@@ -54,7 +54,7 @@ const appendAllChildren = (parentNode, ...children) =>
 const getLists = async (todaySchedule, getClassCode) =>
   todaySchedule.map(({ subject, teacher }, index) => {
     const textNode = document.createTextNode(
-      `${index + 1}교시 ${subject}(${teacher}): `
+      `${index}교시 ${subject}(${teacher}): `
     );
 
     const code = getClassCode(teacher);
@@ -73,7 +73,10 @@ async function main() {
   const todaySchedule = await getTodaySchedule(new Date().getDay());
   const getClassCode = await getClassCodeGetter();
 
-  const lists = await getLists(todaySchedule, getClassCode);
+  const lists = await getLists(
+    [{ subject: "조례", teacher: "박빈" }, ...todaySchedule],
+    getClassCode
+  );
 
   const target = document.querySelector("ul");
   lists.map((list) => target.appendChild(list));
