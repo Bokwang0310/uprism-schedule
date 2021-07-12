@@ -21,9 +21,9 @@ const convertDayCode = (dayCode) => {
   }
 };
 
-const getLink = (code) => `https://gne.uprism.io/join/${code}`;
+const getFullLink = (code) => `https://gne.uprism.io/join/${code}`;
 
-const getCodeGetter = async () => {
+const getClassCodeGetter = async () => {
   const path = "teacher.json";
   const codeObj = await fetch(path).then((res) => res.json());
 
@@ -39,25 +39,29 @@ const getTodaySchedule = async (dayCode) => {
   return scheduleObj[convertDayCode(dayCode)];
 };
 
-const createAnchorElement = (href, text) => {
+const createAnchorElement = (innerText, attribute) => {
   const anchorElement = document.createElement("a");
-  anchorElement.setAttribute("href", href);
-  anchorElement.innerText = text;
-
+  anchorElement.innerText = innerText;
+  Object.entries(attribute).forEach((attr) => {
+    anchorElement.setAttribute(...attr);
+  });
   return anchorElement;
 };
 
 const appendAllChildren = (parentNode, ...children) =>
   children.map((child) => parentNode.appendChild(child));
 
-const createLinkElement = (code) => createAnchorElement(getLink(code), code);
-
-const getLists = async (todaySchedule, getCode) =>
+const getLists = async (todaySchedule, getClassCode) =>
   todaySchedule.map(({ subject, teacher }, index) => {
     const textNode = document.createTextNode(
       `${index + 1}교시 ${subject}(${teacher}): `
     );
-    const anchorElement = createLinkElement(getCode(teacher));
+
+    const code = getClassCode(teacher);
+    const anchorElement = createAnchorElement(code, {
+      href: getFullLink(code),
+      target: "_blank",
+    });
 
     const listElement = document.createElement("li");
     appendAllChildren(listElement, textNode, anchorElement);
@@ -67,9 +71,9 @@ const getLists = async (todaySchedule, getCode) =>
 
 async function main() {
   const todaySchedule = await getTodaySchedule(new Date().getDay());
-  const getCode = await getCodeGetter();
+  const getClassCode = await getClassCodeGetter();
 
-  const lists = await getLists(todaySchedule, getCode);
+  const lists = await getLists(todaySchedule, getClassCode);
 
   const target = document.querySelector("ul");
   lists.map((list) => target.appendChild(list));
